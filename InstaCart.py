@@ -83,9 +83,13 @@ if submit_button:
     st.subheader('Up to this two')
 
     order_products = pd.concat([order_products_train, order_products_prior])
+    order_products = order_products.drop(['add_to_cart_order', 'reordered'])
+    data = order_products.merge(orders, on = "order_id", how = "left")
+    data = data.drop_duplicates(subset=["user_id","product_id"])
+
     st.subheader('up to this ? ')
-    data = order_products.merge(products, on = "product_id", how = "left")
-    st.subheader('Up to this ??')
+    # data = order_products.merge(products, on = "product_id", how = "left")
+    # st.subheader('Up to this ??')
     # data = data.merge(aisles, on = "aisle_id", how = "left")
     # st.subheader('Up to this ???')
     # data = data.merge(departments, on = "department_id", how = "left")

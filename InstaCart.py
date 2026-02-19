@@ -84,12 +84,14 @@ if submit_button:
 
     order_products = pd.concat([order_products_train, order_products_prior])
     st.subheader('up to this ? ')
-    # data = order_products.merge(products, on = "product_id", how = "left")
-    # data = data.merge(aisles, on = "aisle_id", how = "left")
-    # data = data.merge(departments, on = "department_id", how = "left")
-    # data = data.merge(orders, on = "order_id", how = "left")
-
-    # st.subheader('Up to this three')
+    data = order_products.merge(products, on = "product_id", how = "left")
+    st.subheader('Up to this ??')
+    data = data.merge(aisles, on = "aisle_id", how = "left")
+    st.subheader('Up to this ???')
+    data = data.merge(departments, on = "department_id", how = "left")
+    st.subheader('Up to this ????')
+    data = data.merge(orders, on = "order_id", how = "left")
+    st.subheader('Up to this three')
 
     # sns.countplot(x='order_dow', data=data, color='teal', ax=ax)
 

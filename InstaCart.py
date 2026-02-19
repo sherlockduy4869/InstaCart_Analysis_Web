@@ -5,7 +5,6 @@ from mlxtend.frequent_patterns import fpgrowth, association_rules
 import matplotlib.pyplot as plt
 import seaborn as sns
 import gdown
-
 import os
 
 
@@ -80,22 +79,22 @@ if submit_button:
     list_aisle = df_user_input['aisles'][0]
     product_frequency = df_user_input['frequency'][0]
 
-    st.subheader('Up to this two')
-
-    order_products = pd.concat([order_products_train, order_products_prior])
+    # order_products = pd.concat([order_products_train, order_products_prior])
+    order_products = order_products_prior
     order_products = order_products.drop(['add_to_cart_order', 'reordered'])
     data = order_products.merge(orders, on = "order_id", how = "left")
     data = data.drop_duplicates(subset=["user_id","product_id"])
 
-    st.subheader('up to this ? ')
+    st.subheader('Up to this two')
+
     # data = order_products.merge(products, on = "product_id", how = "left")
-    # st.subheader('Up to this ??')
+
     # data = data.merge(aisles, on = "aisle_id", how = "left")
-    # st.subheader('Up to this ???')
+
     # data = data.merge(departments, on = "department_id", how = "left")
-    # st.subheader('Up to this ????')
+
     # data = data.merge(orders, on = "order_id", how = "left")
-    # st.subheader('Up to this three')
+
 
     # sns.countplot(x='order_dow', data=data, color='teal', ax=ax)
 

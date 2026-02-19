@@ -81,54 +81,54 @@ if submit_button:
     ax.ticklabel_format(style='plain', axis='y')
     st.pyplot(fig)
 
-    #DATA PROCESSING
+    # #DATA PROCESSING
 
-    data_unique = data.drop_duplicates(subset=["user_id","product_id"])
-    data = data_unique
+    # data_unique = data.drop_duplicates(subset=["user_id","product_id"])
+    # data = data_unique
 
-    if len(list_department) > 0:
-        data = data[data['department'].isin(list_department)]
-    elif len(list_aisle) > 0:
-        data = data[data['aisle'].isin(list_aisle)]
-    else:
-        data = data
+    # if len(list_department) > 0:
+    #     data = data[data['department'].isin(list_department)]
+    # elif len(list_aisle) > 0:
+    #     data = data[data['aisle'].isin(list_aisle)]
+    # else:
+    #     data = data
 
-    data_explore = data[['order_id', 'product_name']]
+    # data_explore = data[['order_id', 'product_name']]
 
-    #Calculating support point
-    total_order = data_explore["order_id"].nunique()
+    # #Calculating support point
+    # total_order = data_explore["order_id"].nunique()
 
-    support_point = product_frequency/total_order
+    # support_point = product_frequency/total_order
 
-    basket = data_explore.groupby('order_id')['product_name'].apply(list).tolist()
+    # basket = data_explore.groupby('order_id')['product_name'].apply(list).tolist()
 
-    te = TransactionEncoder()
-    te_ary = te.fit(basket).transform(basket)
-    df = pd.DataFrame(te_ary, columns=te.columns_)
+    # te = TransactionEncoder()
+    # te_ary = te.fit(basket).transform(basket)
+    # df = pd.DataFrame(te_ary, columns=te.columns_)
 
-    frequent_itemsets = fpgrowth(df, min_support = support_point, use_colnames=True, max_len = max_len)
+    # frequent_itemsets = fpgrowth(df, min_support = support_point, use_colnames=True, max_len = max_len)
 
-    rules = association_rules(
-        frequent_itemsets,
-        metric = "lift",
-        min_threshold = 1.5
-    )
+    # rules = association_rules(
+    #     frequent_itemsets,
+    #     metric = "lift",
+    #     min_threshold = 1.5
+    # )
 
-    rules = rules.sort_values(by = ["lift", "support"], ascending=False)
+    # rules = rules.sort_values(by = ["lift", "support"], ascending=False)
 
-    rules = rules[["antecedents", "consequents", "support", "confidence", "lift"]]
+    # rules = rules[["antecedents", "consequents", "support", "confidence", "lift"]]
 
-    rules = rules.drop_duplicates(subset=["support"])
+    # rules = rules.drop_duplicates(subset=["support"])
 
-    rules["antecedents"] = rules["antecedents"].apply(
-        lambda x: list(x) if isinstance(x, (set, frozenset)) else x
-    )
+    # rules["antecedents"] = rules["antecedents"].apply(
+    #     lambda x: list(x) if isinstance(x, (set, frozenset)) else x
+    # )
 
-    rules["consequents"] = rules["consequents"].apply(
-        lambda x: list(x) if isinstance(x, (set, frozenset)) else x
-    )
+    # rules["consequents"] = rules["consequents"].apply(
+    #     lambda x: list(x) if isinstance(x, (set, frozenset)) else x
+    # )
 
-    rules = rules.sort_values(by = ["lift", "support"], ascending=False)
+    # rules = rules.sort_values(by = ["lift", "support"], ascending=False)
 
-    st.subheader('Products Bundle Result')
-    st.write(rules)
+    # st.subheader('Products Bundle Result')
+    # st.write(rules)

@@ -58,28 +58,28 @@ if submit_button:
 
     order_products_train = pd.read_csv(DATA_SOURCE + "1Egfno5jVrQXCkrhEgdPrQR2akqs7U5fJ")
     products = pd.read_csv(DATA_SOURCE + "18weuttpH8e1NaHDWINx6etGFj92R0_50")
-    orders = pd.read_csv("orders.csv")
-    order_products_prior = pd.read_csv("order_products_prior.csv")
+    # orders = pd.read_csv("orders.csv")
+    # order_products_prior = pd.read_csv("order_products_prior.csv")
 
-    #INPUT DATA
-    max_len = df_user_input['max_len'][0]
-    list_department = df_user_input['departments'][0]
-    list_aisle = df_user_input['aisles'][0]
-    product_frequency = df_user_input['frequency'][0]
+    # #INPUT DATA
+    # max_len = df_user_input['max_len'][0]
+    # list_department = df_user_input['departments'][0]
+    # list_aisle = df_user_input['aisles'][0]
+    # product_frequency = df_user_input['frequency'][0]
 
-    order_products = pd.concat([order_products_train, order_products_prior])
-    data = order_products.merge(products, on = "product_id", how = "left")
-    data = data.merge(aisles, on = "aisle_id", how = "left")
-    data = data.merge(departments, on = "department_id", how = "left")
-    data = data.merge(orders, on = "order_id", how = "left")
+    # order_products = pd.concat([order_products_train, order_products_prior])
+    # data = order_products.merge(products, on = "product_id", how = "left")
+    # data = data.merge(aisles, on = "aisle_id", how = "left")
+    # data = data.merge(departments, on = "department_id", how = "left")
+    # data = data.merge(orders, on = "order_id", how = "left")
 
-    sns.countplot(x='order_dow', data=data, color='teal', ax=ax)
+    # sns.countplot(x='order_dow', data=data, color='teal', ax=ax)
 
-    ax.set_title('Busiest Days of the Week')
-    ax.set_xlabel('Day of Week (0 = Sunday)')
-    ax.set_ylabel('Total Orders')
-    ax.ticklabel_format(style='plain', axis='y')
-    st.pyplot(fig)
+    # ax.set_title('Busiest Days of the Week')
+    # ax.set_xlabel('Day of Week (0 = Sunday)')
+    # ax.set_ylabel('Total Orders')
+    # ax.ticklabel_format(style='plain', axis='y')
+    # st.pyplot(fig)
 
     # #DATA PROCESSING
 

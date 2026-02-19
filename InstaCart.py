@@ -58,8 +58,8 @@ if submit_button:
 
     order_products_train = pd.read_csv(DATA_SOURCE + "1Egfno5jVrQXCkrhEgdPrQR2akqs7U5fJ")
     products = pd.read_csv(DATA_SOURCE + "18weuttpH8e1NaHDWINx6etGFj92R0_50")
-    # orders = pd.read_csv("orders.csv")
-    # order_products_prior = pd.read_csv("order_products_prior.csv")
+    orders = pd.read_csv("orders.csv")
+    order_products_prior = pd.read_csv("order_products_prior.csv")
 
     # #INPUT DATA
     # max_len = df_user_input['max_len'][0]

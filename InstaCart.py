@@ -80,11 +80,15 @@ if submit_button:
     list_aisle = df_user_input['aisles'][0]
     product_frequency = df_user_input['frequency'][0]
 
+    st.subheader('Up to this two')
+
     order_products = pd.concat([order_products_train, order_products_prior])
     data = order_products.merge(products, on = "product_id", how = "left")
     data = data.merge(aisles, on = "aisle_id", how = "left")
     data = data.merge(departments, on = "department_id", how = "left")
     data = data.merge(orders, on = "order_id", how = "left")
+
+    st.subheader('Up to this three')
 
     # sns.countplot(x='order_dow', data=data, color='teal', ax=ax)
 
@@ -98,6 +102,8 @@ if submit_button:
 
     data_unique = data.drop_duplicates(subset=["user_id","product_id"])
     data = data_unique
+
+    st.subheader('Up to this four')
 
     if len(list_department) > 0:
         data = data[data['department'].isin(list_department)]

@@ -62,13 +62,15 @@ if submit_button:
     order_products_train = pd.read_csv(DATA_SOURCE + "1Egfno5jVrQXCkrhEgdPrQR2akqs7U5fJ")
     products = pd.read_csv(DATA_SOURCE + "18weuttpH8e1NaHDWINx6etGFj92R0_50")
 
-    file_path = os.getcwd() + '/orders.csv'
+    file_path_orders = os.getcwd() + '/orders.csv'
+    file_path_order_products_prior = os.getcwd() + '/order_products_prior.csv'
 
     st.subheader('Test file path on cloud')
-    st.write(os.path.exists(file_path))
+    st.write(os.path.exists(file_path_orders))
+    st.write(os.path.exists(file_path_order_products_prior))
 
-    # orders = pd.read_csv("orders.csv")
-    # order_products_prior = pd.read_csv("order_products_prior.csv")
+    orders = pd.read_csv(file_path_orders)
+    order_products_prior = pd.read_csv(file_path_order_products_prior)
 
 
 

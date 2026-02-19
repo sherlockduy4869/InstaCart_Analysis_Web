@@ -72,74 +72,76 @@ if submit_button:
     orders = pd.read_csv(file_path_orders)
     order_products_prior = pd.read_csv(file_path_order_products_prior)
 
-    #INPUT DATA
-    max_len = df_user_input['max_len'][0]
-    list_department = df_user_input['departments'][0]
-    list_aisle = df_user_input['aisles'][0]
-    product_frequency = df_user_input['frequency'][0]
+    st.subheader('Up to this one')
 
-    order_products = pd.concat([order_products_train, order_products_prior])
-    data = order_products.merge(products, on = "product_id", how = "left")
-    data = data.merge(aisles, on = "aisle_id", how = "left")
-    data = data.merge(departments, on = "department_id", how = "left")
-    data = data.merge(orders, on = "order_id", how = "left")
+    # #INPUT DATA
+    # max_len = df_user_input['max_len'][0]
+    # list_department = df_user_input['departments'][0]
+    # list_aisle = df_user_input['aisles'][0]
+    # product_frequency = df_user_input['frequency'][0]
 
-    sns.countplot(x='order_dow', data=data, color='teal', ax=ax)
+    # order_products = pd.concat([order_products_train, order_products_prior])
+    # data = order_products.merge(products, on = "product_id", how = "left")
+    # data = data.merge(aisles, on = "aisle_id", how = "left")
+    # data = data.merge(departments, on = "department_id", how = "left")
+    # data = data.merge(orders, on = "order_id", how = "left")
 
-    ax.set_title('Busiest Days of the Week')
-    ax.set_xlabel('Day of Week (0 = Sunday)')
-    ax.set_ylabel('Total Orders')
-    ax.ticklabel_format(style='plain', axis='y')
-    st.pyplot(fig)
+    # sns.countplot(x='order_dow', data=data, color='teal', ax=ax)
 
-    #DATA PROCESSING
+    # ax.set_title('Busiest Days of the Week')
+    # ax.set_xlabel('Day of Week (0 = Sunday)')
+    # ax.set_ylabel('Total Orders')
+    # ax.ticklabel_format(style='plain', axis='y')
+    # st.pyplot(fig)
 
-    data_unique = data.drop_duplicates(subset=["user_id","product_id"])
-    data = data_unique
+    # #DATA PROCESSING
 
-    if len(list_department) > 0:
-        data = data[data['department'].isin(list_department)]
-    elif len(list_aisle) > 0:
-        data = data[data['aisle'].isin(list_aisle)]
-    else:
-        data = data
+    # data_unique = data.drop_duplicates(subset=["user_id","product_id"])
+    # data = data_unique
 
-    data_explore = data[['order_id', 'product_name']]
+    # if len(list_department) > 0:
+    #     data = data[data['department'].isin(list_department)]
+    # elif len(list_aisle) > 0:
+    #     data = data[data['aisle'].isin(list_aisle)]
+    # else:
+    #     data = data
 
-    #Calculating support point
-    total_order = data_explore["order_id"].nunique()
+    # data_explore = data[['order_id', 'product_name']]
 
-    support_point = product_frequency/total_order
+    # #Calculating support point
+    # total_order = data_explore["order_id"].nunique()
 
-    basket = data_explore.groupby('order_id')['product_name'].apply(list).tolist()
+    # support_point = product_frequency/total_order
 
-    te = TransactionEncoder()
-    te_ary = te.fit(basket).transform(basket)
-    df = pd.DataFrame(te_ary, columns=te.columns_)
+    # basket = data_explore.groupby('order_id')['product_name'].apply(list).tolist()
 
-    frequent_itemsets = fpgrowth(df, min_support = support_point, use_colnames=True, max_len = max_len)
+    # te = TransactionEncoder()
+    # te_ary = te.fit(basket).transform(basket)
+    # df = pd.DataFrame(te_ary, columns=te.columns_)
 
-    rules = association_rules(
-        frequent_itemsets,
-        metric = "lift",
-        min_threshold = 1.5
-    )
+    # frequent_itemsets = fpgrowth(df, min_support = support_point, use_colnames=True, max_len = max_len)
 
-    rules = rules.sort_values(by = ["lift", "support"], ascending=False)
+    # rules = association_rules(
+    #     frequent_itemsets,
+    #     metric = "lift",
+    #     min_threshold = 1.5
+    # )
 
-    rules = rules[["antecedents", "consequents", "support", "confidence", "lift"]]
+    # rules = rules.sort_values(by = ["lift", "support"], ascending=False)
 
-    rules = rules.drop_duplicates(subset=["support"])
+    # rules = rules[["antecedents", "consequents", "support", "confidence", "lift"]]
 
-    rules["antecedents"] = rules["antecedents"].apply(
-        lambda x: list(x) if isinstance(x, (set, frozenset)) else x
-    )
+    # rules = rules.drop_duplicates(subset=["support"])
 
-    rules["consequents"] = rules["consequents"].apply(
-        lambda x: list(x) if isinstance(x, (set, frozenset)) else x
-    )
+    # rules["antecedents"] = rules["antecedents"].apply(
+    #     lambda x: list(x) if isinstance(x, (set, frozenset)) else x
+    # )
 
-    rules = rules.sort_values(by = ["lift", "support"], ascending=False)
+    # rules["consequents"] = rules["consequents"].apply(
+    #     lambda x: list(x) if isinstance(x, (set, frozenset)) else x
+    # )
 
-    st.subheader('Products Bundle Result')
-    st.write(rules)
+    # rules = rules.sort_values(by = ["lift", "support"], ascending=False)
+
+    # st.subheader('Products Bundle Result')
+    # st.write(rules)

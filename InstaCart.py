@@ -74,11 +74,11 @@ if submit_button:
 
     st.subheader('Up to this one')
 
-    # #INPUT DATA
-    # max_len = df_user_input['max_len'][0]
-    # list_department = df_user_input['departments'][0]
-    # list_aisle = df_user_input['aisles'][0]
-    # product_frequency = df_user_input['frequency'][0]
+    #INPUT DATA
+    max_len = df_user_input['max_len'][0]
+    list_department = df_user_input['departments'][0]
+    list_aisle = df_user_input['aisles'][0]
+    product_frequency = df_user_input['frequency'][0]
 
     # order_products = pd.concat([order_products_train, order_products_prior])
     # data = order_products.merge(products, on = "product_id", how = "left")

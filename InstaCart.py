@@ -2,13 +2,8 @@ import streamlit as st
 import pandas as pd
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import fpgrowth, association_rules
-import matplotlib.pyplot as plt
-import seaborn as sns
 import gdown
 import os
-
-
-fig, ax = plt.subplots(figsize=(14, 6))
 
 st.write("""
 # InstaCard Products Bundle Prediction Application
@@ -16,15 +11,13 @@ st.write("""
 This app predicts the **Products Bundle** for InstaCart platform !
 """)
 
-#DATA SOURCE
+#GETTING THE LIST OF AISLES
+
 DATA_SOURCE = "https://drive.google.com/uc?id="
-
-st.sidebar.header('User Input Parameters')
-
 aisles = pd.read_csv(DATA_SOURCE + "1BnskfcHBFUTTvj0d1FMoErTw99eOx-bE")
-
 list_aisles = aisles['aisle'].to_list()
 
+st.sidebar.header('User Input Parameters')
 def user_input_features():
     aisles = st.sidebar.multiselect('Aisles',list_aisles, list_aisles[1:4])
     max_len = st.sidebar.slider('Max length', 2, 5, 3)
@@ -45,14 +38,11 @@ submit_button = st.sidebar.button("Run", type="primary")
 
 if submit_button:
 
+    #GETTING THE DATA TO PROCESS
     url_data = DATA_SOURCE + '1u2LR1VoFCy_DvG1NSQamRQsR7LbGLNuM'
-
     data_file = 'processed_data.csv'
-
     gdown.download(url_data, data_file, quiet=False)
-
     file_path_data = os.getcwd() + '/processed_data.csv'
-
     data = pd.read_csv(file_path_data)
 
     #INPUT DATA
@@ -60,8 +50,7 @@ if submit_button:
     list_aisle = df_user_input['aisles'][0]
     product_frequency = df_user_input['frequency'][0]
 
-    # DATA PROCESSING
-
+    # DATA PROCESSING BY SELECTED AISLES
     if len(list_aisle) > 0:
         data = data[data['aisle'].isin(list_aisle)]
     else:
@@ -69,28 +58,26 @@ if submit_button:
 
     data_explore = data[['order_id', 'product_name']]
 
-    #Calculating support point
+    #CALCULATING SUPPORT POINT
     total_order = data_explore["order_id"].nunique()
-
     support_point = product_frequency/total_order
 
+    #MODEL TRAINING
     basket = data_explore.groupby('order_id')['product_name'].apply(list).tolist()
-
     te = TransactionEncoder()
     te_ary = te.fit(basket).transform(basket, sparse=True)
-
     df = pd.DataFrame.sparse.from_spmatrix(
         te_ary,
         columns=te.columns_
     )
-
     frequent_itemsets = fpgrowth(df, min_support = support_point, use_colnames=True, max_len = max_len)
-
     rules = association_rules(
         frequent_itemsets,
         metric = "lift",
         min_threshold = 1.5
     )
+
+    #DISPlAYING THE RESULT
 
     rules = rules.sort_values(by = ["lift", "support"], ascending=False)
 
@@ -105,8 +92,6 @@ if submit_button:
     rules["consequents"] = rules["consequents"].apply(
         lambda x: list(x) if isinstance(x, (set, frozenset)) else x
     )
-
-    rules = rules.sort_values(by = ["lift", "support"], ascending=False)
 
     st.subheader('Products Bundle Result')
     st.write(rules)

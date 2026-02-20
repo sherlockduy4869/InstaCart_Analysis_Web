@@ -21,21 +21,17 @@ DATA_SOURCE = "https://drive.google.com/uc?id="
 
 st.sidebar.header('User Input Parameters')
 
-departments = pd.read_csv(DATA_SOURCE + "1mBix_Zbg67I1foEsljFm7Cf23H_SFhcI")
 aisles = pd.read_csv(DATA_SOURCE + "1BnskfcHBFUTTvj0d1FMoErTw99eOx-bE")
 
-list_departments = departments['department'].to_list()
 list_aisles = aisles['aisle'].to_list()
 
 def user_input_features():
-    departments = st.sidebar.multiselect('Derpartments', list_departments, list_departments[1:4])
     aisles = st.sidebar.multiselect('Aisles',list_aisles, list_aisles[1:4])
     max_len = st.sidebar.slider('Max length', 2, 5, 3)
     frequency = st.sidebar.slider('Frequency', 100, 1000, 150)
     data = {
         'frequency' : [frequency],
         'max_len': [max_len],
-        'departments' : [departments],
         'aisles' : [aisles]
         }
     features = pd.DataFrame(data)
@@ -49,27 +45,7 @@ submit_button = st.sidebar.button("Run", type="primary")
 
 if submit_button:
 
-    
-
-    # url_orders = DATA_SOURCE + "1Mb1BvHirYGVbsKiddfJR6uaRrBQt4KwU"
-    # url_order_products_prior = DATA_SOURCE + "1M8fuFMODgT_6K_XeTzR2Upg3fDPbKN66"
-
-    # orders = "orders.csv"
-    # order_products_prior = "order_products_prior.csv"
-
-    # gdown.download(url_orders, orders, quiet=False)
-    # gdown.download(url_order_products_prior, order_products_prior, quiet=False)
-
-    # order_products_train = pd.read_csv(DATA_SOURCE + "1Egfno5jVrQXCkrhEgdPrQR2akqs7U5fJ")
-    # products = pd.read_csv(DATA_SOURCE + "18weuttpH8e1NaHDWINx6etGFj92R0_50")
-
-    # file_path_orders = os.getcwd() + '/orders.csv'
-    # file_path_order_products_prior = os.getcwd() + '/order_products_prior.csv'
-
-    # orders = pd.read_csv(file_path_orders)
-    # order_products_prior = pd.read_csv(file_path_order_products_prior)
-
-    url_data = DATA_SOURCE + '1kB_GPUH1nuU5G3XMO5CkAA7jjfxa67bb'
+    url_data = DATA_SOURCE + '1kFNC0lCJNxyP0rsSKYJ8-7lWOyk5NMuv'
 
     data_file = 'processed_data.csv'
 
@@ -81,23 +57,8 @@ if submit_button:
 
     #INPUT DATA
     max_len = df_user_input['max_len'][0]
-    list_department = df_user_input['departments'][0]
     list_aisle = df_user_input['aisles'][0]
     product_frequency = df_user_input['frequency'][0]
-
-    # order_products = pd.concat([order_products_train, order_products_prior])
-
-    # data = order_products.merge(orders, on = "order_id", how = "left")
-
-    # data = data.drop_duplicates(subset=["user_id","product_id"])
-
-    # data = order_products.merge(products, on = "product_id", how = "left")
-
-    # data = data.merge(aisles, on = "aisle_id", how = "left")
-
-    # data = data.merge(departments, on = "department_id", how = "left")
-
-
 
     # sns.countplot(x='order_dow', data=data, color='teal', ax=ax)
 
@@ -111,9 +72,7 @@ if submit_button:
 
     st.subheader('Up to this four')
 
-    if len(list_department) > 0:
-        data = data[data['department'].isin(list_department)]
-    elif len(list_aisle) > 0:
+    if len(list_aisle) > 0:
         data = data[data['aisle'].isin(list_aisle)]
     else:
         data = data

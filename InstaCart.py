@@ -130,8 +130,12 @@ if submit_button:
     basket = data_explore.groupby('order_id')['product_name'].apply(list).tolist()
 
     te = TransactionEncoder()
-    te_ary = te.fit(basket).transform(basket)
-    df = pd.DataFrame(te_ary, columns=te.columns_)
+    te_ary = te.fit(basket).transform(basket, sparse=True)
+
+    df = pd.DataFrame.sparse.from_spmatrix(
+        te_ary,
+        columns=te.columns_
+    )
 
     st.subheader('Up to this 6')
 

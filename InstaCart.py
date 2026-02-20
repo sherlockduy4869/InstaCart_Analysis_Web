@@ -62,14 +62,10 @@ if submit_button:
 
     # DATA PROCESSING
 
-    st.subheader('Up to this four')
-
     if len(list_aisle) > 0:
         data = data[data['aisle'].isin(list_aisle)]
     else:
         data = data
-
-    st.subheader('Up to this five')
 
     data_explore = data[['order_id', 'product_name']]
 
@@ -87,8 +83,6 @@ if submit_button:
         te_ary,
         columns=te.columns_
     )
-
-    st.subheader('Up to this 6')
 
     frequent_itemsets = fpgrowth(df, min_support = support_point, use_colnames=True, max_len = max_len)
 

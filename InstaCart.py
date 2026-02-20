@@ -118,6 +118,8 @@ if submit_button:
     else:
         data = data
 
+    st.subheader('Up to this five')
+
     data_explore = data[['order_id', 'product_name']]
 
     #Calculating support point
@@ -130,6 +132,8 @@ if submit_button:
     te = TransactionEncoder()
     te_ary = te.fit(basket).transform(basket)
     df = pd.DataFrame(te_ary, columns=te.columns_)
+
+    st.subheader('Up to this 6')
 
     frequent_itemsets = fpgrowth(df, min_support = support_point, use_colnames=True, max_len = max_len)
 

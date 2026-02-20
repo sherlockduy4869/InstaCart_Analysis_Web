@@ -21,10 +21,12 @@ st.sidebar.header('User Input Parameters')
 def user_input_features():
     aisles = st.sidebar.multiselect('Aisles',list_aisles, list_aisles[1:4])
     max_len = st.sidebar.slider('Max length', 2, 5, 3)
+    min_threshold = st.sidebar.slider('Min threshold', 1, 10, 2)
     frequency = st.sidebar.slider('Frequency', 100, 1000, 150)
     data = {
         'frequency' : [frequency],
         'max_len': [max_len],
+        'min_threshold' : [min_threshold],
         'aisles' : [aisles]
         }
     features = pd.DataFrame(data)
@@ -47,6 +49,7 @@ if submit_button:
 
     #INPUT DATA
     max_len = df_user_input['max_len'][0]
+    min_threshold = df_user_input['min_threshold'][0]
     list_aisle = df_user_input['aisles'][0]
     product_frequency = df_user_input['frequency'][0]
 
@@ -74,7 +77,7 @@ if submit_button:
     rules = association_rules(
         frequent_itemsets,
         metric = "lift",
-        min_threshold = 1.5
+        min_threshold = min_threshold
     )
 
     #DISPlAYING THE RESULT

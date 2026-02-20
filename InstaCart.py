@@ -45,7 +45,7 @@ submit_button = st.sidebar.button("Run", type="primary")
 
 if submit_button:
 
-    url_data = DATA_SOURCE + '1kFNC0lCJNxyP0rsSKYJ8-7lWOyk5NMuv'
+    url_data = DATA_SOURCE + '1u2LR1VoFCy_DvG1NSQamRQsR7LbGLNuM'
 
     data_file = 'processed_data.csv'
 
@@ -59,14 +59,6 @@ if submit_button:
     max_len = df_user_input['max_len'][0]
     list_aisle = df_user_input['aisles'][0]
     product_frequency = df_user_input['frequency'][0]
-
-    # sns.countplot(x='order_dow', data=data, color='teal', ax=ax)
-
-    # ax.set_title('Busiest Days of the Week')
-    # ax.set_xlabel('Day of Week (0 = Sunday)')
-    # ax.set_ylabel('Total Orders')
-    # ax.ticklabel_format(style='plain', axis='y')
-    # st.pyplot(fig)
 
     # DATA PROCESSING
 
